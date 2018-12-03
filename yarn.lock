@@ -6342,6 +6342,10 @@ lowercase-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lowercase-keys/-/lowercase-keys-1.0.0.tgz#4e3366b39e7f5457e35f1324bdf6f88d0bfc7306"
 
+lozad@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/lozad/-/lozad-1.7.0.tgz#ecf333eb3e149ce44bbbb21ab9d64f4b85987888"
+
 lru-cache@^2.5.0:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.7.3.tgz#6d4524e8b955f95d4f5b58851ce21dd72fb4e952"
