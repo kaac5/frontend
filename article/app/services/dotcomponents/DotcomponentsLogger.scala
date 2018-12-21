@@ -31,12 +31,15 @@ case class DotcomponentsLogger(request: Option[RequestHeader]) extends Logging {
   def fieldsFromResults(results: Map[String, Boolean]):List[LogField] =
     results.map({ case (k, v) => LogFieldString(k, v.toString)}).toList
 
+  def getElementsField(elements: Seq[String]): List[LogField] =
+    List(LogFieldString("page.elements", elements.mkString(", ")))
+
   def withRequestHeaders(rh: RequestHeader): DotcomponentsLogger = {
     copy(Some(rh))
   }
 
-  def results(message: String, results: Map[String, Boolean]): Unit = {
-    logInfoWithCustomFields(message, customFields ++ fieldsFromResults(results))
+  def results(message: String, results: Map[String, Boolean], elements: Seq[String]): Unit = {
+    logInfoWithCustomFields(message, customFields ++ fieldsFromResults(results) ++ getElementsField(elements))
   }
 
   def info(message: String): Unit = {

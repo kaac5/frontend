@@ -70,20 +70,26 @@ class RenderingTierPicker {
     )
   }
 
-  private[this] def logRequest(msg:String, results: Map[String, Boolean])(implicit request: RequestHeader): Unit = {
-    DotcomponentsLogger().withRequestHeaders(request).results(msg, results)
+  private[this] def logRequest(msg:String, results: Map[String, Boolean], elements: Seq[String])(implicit request: RequestHeader): Unit = {
+    DotcomponentsLogger().withRequestHeaders(request).results(msg, results, elements)
   }
 
   def getTier(page: PageWithStoryPackage)(implicit request: RequestHeader): RenderType = {
+
     val features = featureWhitelist(page, request)
     val isSupported = features.forall({ case (test, isMet) => isMet})
     val isWhitelisted = whitelist(page.metadata.id)
     val isEnabled = conf.switches.Switches.DotcomRendering.isSwitchedOn
 
+    val elements: Seq[String] = page.article.blocks match {
+      case Some(blocks) => blocks.body.flatMap(bblock => bblock.elements)map(be=>be.toString)
+      case None => Seq()
+    }
+
     if (!isSupported) {
-      logRequest("Article was remotely renderable", features)
+      logRequest("Article was remotely renderable", features, elements)
     } else {
-      logRequest("Article was only locally renderable", features)
+      logRequest("Article was only locally renderable", features, elements)
     }
 
     if (request.isAmp && request.isGuui) RemoteRenderAMP
