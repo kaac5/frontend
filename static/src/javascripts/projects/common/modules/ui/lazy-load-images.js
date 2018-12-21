@@ -1,15 +1,14 @@
 // @flow
 import lozad from 'lozad';
 
+const isIE = typeof document !== 'undefined' && document.documentMode;
+
 export const lazyLoadImages = (): void => {
     const selector = '.lazy-load-img';
 
     const observer = lozad(selector, {
         rootMargin: '100px 0px', // load images before they are actually viewed
         load: element => {
-            const isIE =
-                typeof document !== 'undefined' && document.documentMode;
-
             if (element.nodeName.toLowerCase() === 'picture') {
                 const img = document.createElement('img');
 
