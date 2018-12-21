@@ -81,10 +81,10 @@ class RenderingTierPicker {
     val isWhitelisted = whitelist(page.metadata.id)
     val isEnabled = conf.switches.Switches.DotcomRendering.isSwitchedOn
 
-    val elements: Seq[String] = page.article.blocks match {
-      case Some(blocks) => blocks.body.flatMap(bblock => bblock.elements)map(be=>be.toString)
+    val elements: Seq[String] = (page.article.blocks match {
+      case Some(blocks) => blocks.body.flatMap(bblock => bblock.elements) map (be => be.getClass.toString)
       case None => Seq()
-    }
+    }).distinct
 
     if (!isSupported) {
       logRequest("Article was remotely renderable", features, elements)
